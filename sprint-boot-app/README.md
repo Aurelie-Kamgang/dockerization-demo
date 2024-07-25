@@ -20,6 +20,13 @@ The PayMyBuddy application is a Java-based application that uses MySQL as its ba
 - The MySQL service is pre-configured with a root password, a database, and a user password. The initial schema and data are loaded from the `./initdb` directory.
 
 ## Building the Application
+
+- Installer le JDk et maven sous la VM Ubuntu
+  `sudo apt install openjdk-17-jre-headless maven`
+
+- Construction de l'application
+  `mvn clean install`
+
 1. **Build the Docker Image for PayMyBuddy**
     ```bash
     docker build -t paymybuddy .
