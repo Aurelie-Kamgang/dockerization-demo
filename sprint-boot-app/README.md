@@ -1,1 +1,0 @@
-# dockerization-demo
