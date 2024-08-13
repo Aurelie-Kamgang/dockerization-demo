@@ -86,44 +86,46 @@ To stop the services and remove the containers, networks, and volumes created by
 **![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXddbKH6qg3y2AR29ln6RC2vPUe2bxfbTcIqDhWPmcHCZSA6tH07JHq07DeVJcFImVXF1_NozFA8lLxLQs76g1cTGBRQ9fa0H9-wy2TMBuhAwYlOrjDd0sO0y8PVCwxTazMrKIcidbbceY5fy0zi2NbxYdAw?key=mLqAl_ccMoG4hHcRzSYKpw)**
 
 
-Choosing a Lightweight Base Image:
+1.  **Choosing a Lightweight Base Image**:
+    
+    -   The Dockerfile uses `amazoncorretto:17-alpine`, a lightweight image based on Alpine Linux, thereby reducing the overall size of the Docker image.
+2.  **Reducing the Number of Layers**:
+    
+    -   Commands are combined as much as possible to reduce the number of layers in the final image, optimizing the build process.
+3.  **Using `.dockerignore`**:
+    
+    -   The `.dockerignore` file is used to exclude unnecessary files from the build context, improving the build performance.
+4.  **Proper Secret Management**:
+    
+    -   Secrets and sensitive configurations are not included directly in the Dockerfile. Instead, they are managed through environment variables and external files like `.env`.
+5.  **Cleaning Up Build Artifacts**:
+    
+    -   The Dockerfile and `.dockerignore` are configured to avoid including temporary or unnecessary build artifacts in the final image, keeping it as lightweight as possible.
+6.  **Configuring Volumes Wisely**:
+    
+    -   Volumes are explicitly defined to ensure that persistent data is properly managed, separating application logic from data storage.
+7.  **Using Environment Variables**:
+    
+    -   The application is configured via environment variables, defined in a `.env` file, making the application flexible and secure.
+8.  **Optimizing Dependencies**:
+    
+    -   Only the dependencies necessary for the production environment are installed, keeping the image lightweight and efficient.
+9.  **Avoiding Complex Multi-Step Scripts**:
+    
+    -   The Dockerfile avoids overly complex scripts, making it easier to maintain and understand.
+10.  **Documenting and Commenting**:
+    
+    -   The Dockerfile includes comments to explain key steps and decisions, making it more accessible to other developers.
 
-The Dockerfile uses amazoncorretto:17-alpine, a lightweight image based on Alpine Linux, thereby reducing the overall size of the Docker image.
-Reducing the Number of Layers:
+## Docker Build Checks
 
-Commands are combined as much as possible to reduce the number of layers in the final image, optimizing the build process.
-Using .dockerignore:
-
-The .dockerignore file is used to exclude unnecessary files from the build context, improving the build performance.
-Proper Secret Management:
-
-Secrets and sensitive configurations are not included directly in the Dockerfile. Instead, they are managed through environment variables and external files like .env.
-Cleaning Up Build Artifacts:
-
-The Dockerfile and .dockerignore are configured to avoid including temporary or unnecessary build artifacts in the final image, keeping it as lightweight as possible.
-Configuring Volumes Wisely:
-
-Volumes are explicitly defined to ensure that persistent data is properly managed, separating application logic from data storage.
-Using Environment Variables:
-
-The application is configured via environment variables, defined in a .env file, making the application flexible and secure.
-Optimizing Dependencies:
-
-Only the dependencies necessary for the production environment are installed, keeping the image lightweight and efficient.
-Avoiding Complex Multi-Step Scripts:
-
-The Dockerfile avoids overly complex scripts, making it easier to maintain and understand.
-Documenting and Commenting:
-
-The Dockerfile includes comments to explain key steps and decisions, making it more accessible to other developers.
-Docker Build Checks
 Docker has introduced a feature called "Build Checks," which enforces higher standards during the image creation process. It automatically detects issues such as unoptimized images or security vulnerabilities, ensuring high-quality and secure Docker images from the start.
 
-Steps to Test Build Checks
-Configuring the Dockerfile for Build Checks
+#### Steps to Test Build Checks
 
-Ensure that your Dockerfile uses advanced syntax with the verification options enabled. For example:
-
+1.  **Configuring the Dockerfile for Build Checks**
+    
+    Ensure that your Dockerfile uses advanced syntax with the verification options enabled. For example:
 ```
 # Utilisation de la syntaxe avancée pour les Build Checks
 # syntax=docker/dockerfile:1
@@ -149,8 +151,8 @@ If issues are detected, Docker will display them in the command output, and the 
   
 3.  **Analyzing Build Results**
     
-    -   **Output without errors**: If no errors or vulnerabilities are detected, Docker will build the image normally, and you will see the usual output indicating a successful build.
-    -   **Output with errors**: If issues are detected (for example, an unoptimized image, insecure practices), Docker will display error or warning messages depending on the `check=error=true` settings. If the `check=error=true` option is enabled, the build will fail.
+-   **Output without errors**: If no errors or vulnerabilities are detected, Docker will build the image normally, and you will see the usual output indicating a successful build.
+-   **Output with errors**: If issues are detected (for example, an unoptimized image, insecure practices), Docker will display error or warning messages depending on the `check=error=true` settings. If the `check=error=true` option is enabled, the build will fail.
     
     Examples of possible errors:
     
