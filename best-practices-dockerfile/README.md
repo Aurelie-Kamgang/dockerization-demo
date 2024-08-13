@@ -81,7 +81,7 @@ To stop the services and remove the containers, networks, and volumes created by
 
 `docker-compose down -v`
 
-## Bonnes Pratiques Appliquées dans le Dockerfile
+## Best practices applied in the Dockerfile
 
 **![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXddbKH6qg3y2AR29ln6RC2vPUe2bxfbTcIqDhWPmcHCZSA6tH07JHq07DeVJcFImVXF1_NozFA8lLxLQs76g1cTGBRQ9fa0H9-wy2TMBuhAwYlOrjDd0sO0y8PVCwxTazMrKIcidbbceY5fy0zi2NbxYdAw?key=mLqAl_ccMoG4hHcRzSYKpw)**
 
