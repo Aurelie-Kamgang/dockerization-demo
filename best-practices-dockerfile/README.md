@@ -129,15 +129,18 @@ Docker a introduit une fonctionnalité appelée "Build Checks", qui renforce les
     
  dockerfile:
 
-`# Utilisation de la syntaxe avancée pour les Build Checks `
-`# syntax=docker/dockerfile:1`
-`# check=error=true FROM amazoncorretto:17-alpine`
-`FROM amazoncorretto:17-alpine`
-`...`
+```
+# Utilisation de la syntaxe avancée pour les Build Checks
+# syntax=docker/dockerfile:1
+# check=error=true FROM amazoncorretto:17-alpine
+FROM amazoncorretto:17-alpine
+...
+```
     
     
-  -   **`# syntax=docker/dockerfile:1`** : Indique l'utilisation de la syntaxe avancée pour le Dockerfile.
-  -   **`# check=error=true`** : Active les Build Checks et spécifie que toute erreur détectée lors du processus de build doit entraîner un échec du build.
+-   **`# syntax=docker/dockerfile:1`** : Indique l'utilisation de la syntaxe avancée pour le Dockerfile.
+-   **`# check=error=true`** : Active les Build Checks et spécifie que toute erreur détectée lors du processus de build doit entraîner un échec du build.
+    
 2.  **Exécuter le Build avec les Vérifications Actives**
     
     Pour tester les Build Checks avec Docker, vous pouvez exécuter la commande suivante :
