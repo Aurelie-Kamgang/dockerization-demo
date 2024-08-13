@@ -86,48 +86,43 @@ To stop the services and remove the containers, networks, and volumes created by
 **![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXddbKH6qg3y2AR29ln6RC2vPUe2bxfbTcIqDhWPmcHCZSA6tH07JHq07DeVJcFImVXF1_NozFA8lLxLQs76g1cTGBRQ9fa0H9-wy2TMBuhAwYlOrjDd0sO0y8PVCwxTazMrKIcidbbceY5fy0zi2NbxYdAw?key=mLqAl_ccMoG4hHcRzSYKpw)**
 
 
-1.  **Choisir une Image de Base Légère** :
-    
-    -   Le Dockerfile utilise `amazoncorretto:17-alpine`, une image légère basée sur Alpine Linux, réduisant ainsi la taille globale de l'image Docker.
-2.  **Réduire le Nombre de Couches** :
-    
-    -   Les commandes sont combinées autant que possible pour réduire le nombre de couches dans l'image finale, optimisant ainsi le processus de build.
-3.  **Utilisation de `.dockerignore`** :
-    
-    -   Le fichier `.dockerignore` est utilisé pour exclure les fichiers inutiles du contexte de build, améliorant ainsi les performances de la construction.
-4.  **Gestion Correcte des Secrets** :
-    
-    -   Les secrets et configurations sensibles ne sont pas inclus directement dans le Dockerfile. Ils sont plutôt gérés via des variables d'environnement et des fichiers externes comme `.env`.
-5.  **Nettoyer les Artefacts de Build** :
-    
-    -   Le Dockerfile et `.dockerignore` sont configurés pour éviter d'inclure des artefacts de build temporaires ou inutiles dans l'image finale, la maintenant aussi légère que possible.
-6.  **Configurer les Volumes Judicieusement** :
-    
-    -   Les volumes sont explicitement définis pour garantir que les données persistantes sont correctement gérées, séparant la logique de l'application du stockage des données.
-7.  **Utiliser des Variables d'Environnement** :
-    
-    -   L'application est configurée via des variables d'environnement, définies dans un fichier `.env`, ce qui rend l'application flexible et sécurisée.
-8.  **Optimiser les Dépendances** :
-    
-    -   Seules les dépendances nécessaires à l'environnement de production sont installées, gardant ainsi l'image légère et efficace.
-9.  **Éviter les Scripts Multi-Étapes Complexes** :
-    
-    -   Le Dockerfile évite les scripts trop complexes, ce qui facilite la maintenance et la compréhension.
-10.  **Documenter et Commenter** :
-    
-    -   Le Dockerfile inclut des commentaires pour expliquer les étapes clés et les décisions, le rendant plus accessible aux autres développeurs.
+Choosing a Lightweight Base Image:
 
-## Vérifications de Build Docker
+The Dockerfile uses amazoncorretto:17-alpine, a lightweight image based on Alpine Linux, thereby reducing the overall size of the Docker image.
+Reducing the Number of Layers:
 
-Docker a introduit une fonctionnalité appelée "Build Checks", qui renforce les standards pendant le processus de création d'image. Elle détecte automatiquement des problèmes comme les images non optimisées ou les vulnérabilités de sécurité, garantissant des images Docker de haute qualité et sécurisées dès le départ.
+Commands are combined as much as possible to reduce the number of layers in the final image, optimizing the build process.
+Using .dockerignore:
 
-#### Étapes pour Tester les Build Checks
+The .dockerignore file is used to exclude unnecessary files from the build context, improving the build performance.
+Proper Secret Management:
 
-1.  **Configurer le Dockerfile pour les Build Checks**
-    
-    Assurez-vous que votre Dockerfile utilise la syntaxe avancée avec les options de vérification activées. Par exemple :
-    
- dockerfile:
+Secrets and sensitive configurations are not included directly in the Dockerfile. Instead, they are managed through environment variables and external files like .env.
+Cleaning Up Build Artifacts:
+
+The Dockerfile and .dockerignore are configured to avoid including temporary or unnecessary build artifacts in the final image, keeping it as lightweight as possible.
+Configuring Volumes Wisely:
+
+Volumes are explicitly defined to ensure that persistent data is properly managed, separating application logic from data storage.
+Using Environment Variables:
+
+The application is configured via environment variables, defined in a .env file, making the application flexible and secure.
+Optimizing Dependencies:
+
+Only the dependencies necessary for the production environment are installed, keeping the image lightweight and efficient.
+Avoiding Complex Multi-Step Scripts:
+
+The Dockerfile avoids overly complex scripts, making it easier to maintain and understand.
+Documenting and Commenting:
+
+The Dockerfile includes comments to explain key steps and decisions, making it more accessible to other developers.
+Docker Build Checks
+Docker has introduced a feature called "Build Checks," which enforces higher standards during the image creation process. It automatically detects issues such as unoptimized images or security vulnerabilities, ensuring high-quality and secure Docker images from the start.
+
+Steps to Test Build Checks
+Configuring the Dockerfile for Build Checks
+
+Ensure that your Dockerfile uses advanced syntax with the verification options enabled. For example:
 
 ```
 # Utilisation de la syntaxe avancée pour les Build Checks
@@ -138,45 +133,42 @@ FROM amazoncorretto:17-alpine
 ```
     
     
--   **`# syntax=docker/dockerfile:1`** : Indique l'utilisation de la syntaxe avancée pour le Dockerfile.
--   **`# check=error=true`** : Active les Build Checks et spécifie que toute erreur détectée lors du processus de build doit entraîner un échec du build.
-    
-2.  **Exécuter le Build avec les Vérifications Actives**
-    
-    Pour tester les Build Checks avec Docker, vous pouvez exécuter la commande suivante :
+- # syntax=docker/dockerfile:1: Indicates the use of advanced syntax for the Dockerfile.
+- # check=error=true: Activates Build Checks and specifies that any errors detected during the build process should cause the build to fail.
+  
+2. Running the Build with Active Checks
+
+To test Build Checks with Docker, you can run the following command:
     
     `docker build --check -t votreimage .` 
     
-    -   **`--check`** : Cette option active les vérifications de build. Docker analysera le Dockerfile pour détecter les erreurs, les images non optimisées, et les vulnérabilités de sécurité.
-    -   **`-t votreimage`** : Cette option tague l'image avec le nom `votreimage`.
-    
-    Si des problèmes sont détectés, Docker les affichera dans la sortie de la commande, et le build échouera si des erreurs critiques sont trouvées.
-    
-3.  **Analyser les Résultats du Build**
-    
-    -   **Sortie sans erreurs** : Si aucune erreur ou vulnérabilité n'est détectée, Docker construira l'image normalement et vous verrez la sortie habituelle indiquant la réussite du build.
-    -   **Sortie avec erreurs** : Si des problèmes sont détectés (par exemple, une image non optimisée, des pratiques de sécurité non respectées), Docker affichera des messages d'erreur ou d'avertissement en fonction des paramètres de `check=error=true`. Si l'option `check=error=true` est activée, le build échouera.
-    
-    Exemples d'erreurs possibles :
-    
-    -   Utilisation d'une image de base obsolète ou non sécurisée.
-    -   Inclusion de fichiers ou de secrets non protégés.
-    -   Utilisation de pratiques non optimales dans le Dockerfile.
+-   **`--check`**: This option activates build checks. Docker will analyze the Dockerfile for errors, unoptimized images, and security vulnerabilities.
+-   **`-t yourimage`**: This option tags the image with the name `yourimage`.
 
-### Test sans Construction Complète de l'Image
+If issues are detected, Docker will display them in the command output, and the build will fail if critical errors are found.
+  
+3.  **Analyzing Build Results**
+    
+    -   **Output without errors**: If no errors or vulnerabilities are detected, Docker will build the image normally, and you will see the usual output indicating a successful build.
+    -   **Output with errors**: If issues are detected (for example, an unoptimized image, insecure practices), Docker will display error or warning messages depending on the `check=error=true` settings. If the `check=error=true` option is enabled, the build will fail.
+    
+    Examples of possible errors:
+    
+    -   Using an outdated or insecure base image.
+    -   Including unprotected files or secrets.
+    -   Using suboptimal practices in the Dockerfile.
 
-Si vous souhaitez exécuter les Build Checks sans construire entièrement l'image, vous pouvez utiliser l'option `--no-cache` pour éviter l'utilisation des caches de build précédents, tout en forçant la vérification de chaque étape :
+### Testing Without Full Image Build
 
-bash
+If you want to run Build Checks without fully building the image, you can use the `--no-cache` option to avoid using previous build caches, while forcing the verification of each step:
 
-Copy code
 
 `docker build --check --no-cache -t votreimage .` 
 
--   **`--no-cache`** : Empêche l'utilisation des caches, forçant Docker à exécuter chaque étape du Dockerfile, ce qui est utile pour s'assurer que toutes les vérifications sont effectuées même sur des étapes normalement mises en cache.
+-   **`--no-cache`**: Prevents using caches, forcing Docker to execute each step of the Dockerfile, which is useful to ensure that all checks are performed even on steps that are usually cached.
 
 ### Conclusion
 
-En utilisant les Build Checks de Docker, vous pouvez améliorer la qualité et la sécurité de vos images Docker en détectant et en corrigeant les problèmes avant que l'image ne soit construite et déployée. Ces vérifications permettent de s'assurer que votre Dockerfile suit les meilleures pratiques et que votre image est aussi optimisée et sécurisée que possible.
+By using Docker's Build Checks, you can improve the quality and security of your Docker images by detecting and correcting issues before the image is built and deployed. These checks ensure that your Dockerfile follows best practices and that your image is as optimized and secure as possible.
 
-N'hésitez pas à exécuter régulièrement ces checks, surtout lors de l'ajout de nouvelles étapes dans votre Dockerfile ou de la mise à jour des dépendances utilisées dans votre projet.
+Feel free to run these checks regularly, especially when adding new steps to your Dockerfile or updating dependencies used in your project.
