@@ -135,8 +135,8 @@ FROM amazoncorretto:17-alpine
 ```
     
     
-- # syntax=docker/dockerfile:1: Indicates the use of advanced syntax for the Dockerfile.
-- # check=error=true: Activates Build Checks and specifies that any errors detected during the build process should cause the build to fail.
+- `# syntax=docker/dockerfile:1`: Indicates the use of advanced syntax for the Dockerfile.
+- `# check=error=true`: Activates Build Checks and specifies that any errors detected during the build process should cause the build to fail.
   
 2. Running the Build with Active Checks
 
